@@ -56,7 +56,7 @@ BasicQuery.prototype.run = function(onNext, onCompleted) {
     if (!keys[0]) {
       return [];
     }
-    onNext(out_idx, me.iterator.getPrimaryKey(), values[0]);
+    onNext(out_idx, keys[0], values[0]);
     out_idx++;
     if (out_idx >= me.itemsPerPage) {
       return [];
