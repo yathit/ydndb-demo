@@ -1,0 +1,21 @@
+<h3>My Test Results</h3>
+
+
+<div class="my-result-list">
+    <div class="module" ng-repeat="(name, module) in results">
+        <div class="name">{{name}}</div>
+        <div class="suite" ng-repeat="suite in module.suites">
+            <div class="name">{{suite.name}}</div>
+            <div class="spec" ng-repeat="spec in suite.specs">
+                <div class="content">
+                    <span title="Duration">{{spec.duration}} ms
+                    </span> - <span title="pass count">{{spec.passedCount}}
+                    </span> / <span title="fail count">{{spec.totalCount}}</span> -
+                    <span ng-class="{pass: spec.passed}">{{spec.description}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
