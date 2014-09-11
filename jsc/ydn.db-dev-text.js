@@ -386,5 +386,5 @@ var categ_letters_numbers_data=[[48,57],[65,90],[97,122],170,[178,179],181,[185,
 ;
 
                 })();
-                //# sourceMappingURL=/Users/kyawtun/db-work/ydn-db-fulltext/jsc/zry-ydn.db-dev-text.js.map
+                //# sourceMappingURL=ydn.db-dev-text.js.map
             
