@@ -78,5 +78,8 @@ function init() {
   getAllTodoItems();
 }
 
-init();
+db.onReady(function() {
+  init();
+});
+
 
