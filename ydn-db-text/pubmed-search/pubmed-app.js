@@ -29,7 +29,7 @@ var PubMedApp = function() {
       }]
   };
   this.db = new ydn.db.Storage('pubmed', db_schema);
-  this.db.addEventListener('ready', function(event) {
+  this.db.onReady(function(event) {
     this.setStatus('Ready');
     var is_updated = event.getVersion() != event.getOldVersion();
     if (is_updated) {
@@ -39,11 +39,7 @@ var PubMedApp = function() {
     this.showStatistic(function() {
       this.tutor();
     }, this);
-  }, false, this);
-  this.db.addEventListener('fail', function(event) {
-    this.setStatus('Database failed ' + event.getError().name);
-    this.db = null;
-  }, false, this);
+  }, this);
   var btn_search = document.getElementById('search');
   btn_search.onclick = this.handleSearch.bind(this);
   var input = document.getElementById('search_input');

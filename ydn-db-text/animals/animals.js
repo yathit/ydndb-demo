@@ -165,7 +165,7 @@ Animals.prototype.load = function(url) {
  * Run the app.
  */
 Animals.prototype.run = function() {
-  this.db.addEventListener('ready', function(e) {
+  this.db.onReady(function(e) {
     this.db.count('animal').then(function(cnt) {
       // console.log(cnt);
       if (cnt < 2345) {
@@ -176,7 +176,7 @@ Animals.prototype.run = function() {
     }, function(e) {
       throw e;
     }, this);
-  }, false, this);
+  }, this);
 };
 
 Animals.prototype.ele_status_ = document.getElementById('status');
