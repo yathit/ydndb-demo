@@ -1,0 +1,10 @@
+CACHE MANIFEST
+# v2
+app.html
+resp-api.js
+service.js
+sync-app.js
+ydn.db-core-entity.js
+
+NETWORK:
+*

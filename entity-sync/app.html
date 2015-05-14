@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html manifest="app.appcache">
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>Entity sync demo app</title>
+  <script src="ydn.db-core-entity.js"></script>
+</head>
+<body>
+  <h2>YDN-DB Entity sync demo application</h2>
+
+  <div>
+    <label>Your name
+      <input name="name" value="guest" id="name"/>
+    </label>
+  </div> <br/>
+  <form>
+    <label>Title<br/>
+      <input name="title" required style="width:30em;"/>
+    </label> <br/>
+    <label>Content<br/>
+      <textarea name="content" rows="5" cols="70"></textarea>
+    </label> <br/>
+    <input name="objectId" hidden/>
+    <button type="reset" name="reset">Reset</button>
+    <button type="submit" name="save" value="submit">Save</button>
+  </form>
+  <div id="message">Opening database...</div>
+  <div>
+    <h5>List of records</h5>
+    <ul id="list"></ul>
+  </div>
+  <p>See documentation on <a href="readme.md">Readme file</a>.
+  </p>
+  <script src="resp-api.js"></script>
+  <script src="service.js"></script>
+  <script src="sync-app.js"></script>
+</body>
+</html>
