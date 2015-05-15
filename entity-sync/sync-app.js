@@ -5,12 +5,12 @@
 var schema = {
   stores: [{
     name: 'item',
-    autoIncrement: true,
-    indexes: [{
+    autoIncrement: true, // require by entity module, must not set keyPath.
+    indexes: [{ // indexes are optional
       name: 'updatedAt',
       keyPath: 'updatedAt'
     }]
-  }, {name: '_ydn_sync_history',
+  }, {name: '_ydn_sync_history', // entity module requires this objectStore
     keyPath: 'sequence',
     autoIncrement: true,
     indexes: [

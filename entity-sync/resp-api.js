@@ -1,5 +1,10 @@
 /**
  * @fileOverview REST api service provider for Parse
+ *
+ *
+ * Note: Parse API does not support REST API features like conditional request
+ * with Etag or Modified-Date. It does not have listing keys. But it has
+ * more powerful query API, which is used here.
  * @link http://parse.com
  */
 
