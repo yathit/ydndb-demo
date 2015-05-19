@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      color: #222;
+      font: 14px Arial;
+    }
+
+    a {
+      color: #3D5C9D;
+      text-decoration: none;
+      cursor: pointer;
+    }
+    input {
+      margin: 4px;
+    }
+  </style>
+  <script type="text/javascript" src="ydn.db-isw-core-crypt-qry-dev.js"></script>
+
+</head>
+<body>
+
+<h3>Todo list app with encryption</h3>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th></th>
+    <th>Key</th>
+    <th>Value</th>
+  </tr>
+  </thead>
+  <tbody id="todoItems"></tbody>
+</table>
+<form>
+<input type="text" id="key" name="key" placeholder="key" style="width: 200px;" /><br/>
+<input type="text" id="value" name="value" placeholder="value" style="width: 200px;" /><br/>
+<input type="submit" value="Add Todo Item" onclick="addTodo(); return false;"/>
+</form>
+
+<p>
+  <a href="http://dev.yathit.com/ydn-db">YDN-DB</a> <a href="http://dev.yathit.com/ydn-db/example/index.html">demo apps</a>.
+</p>
+<script type="text/javascript" src="todo.js"></script>
+</body>
+</html>
