@@ -18,7 +18,7 @@ var db = new ydn.db.Storage('todo_2', schema);
 
 var deleteTodo = function (id) {
   db.remove('todo', id).fail(function(e) {
-    throw e;
+    console.error(e);
   });
 
   getAllTodoItems();
@@ -38,7 +38,7 @@ var getAllTodoItems = function () {
   });
 
   df.fail(function (e) {
-    throw e;
+    console.error(e);
   })
 };
 
@@ -66,7 +66,7 @@ var addTodo = function () {
     "timeStamp":new Date().getTime()
   };
   db.put('todo', data).fail(function(e) {
-    throw e;
+    console.error(e);
   });
 
   todo.value = "";
