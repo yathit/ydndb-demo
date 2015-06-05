@@ -71,20 +71,29 @@ RestService.prototype.remove = function(cb, name, id, token) {
 };
 
 
+RestService.prototype.list_ = function(cb, name, token) {
+  Rest.list(function(arr) {
+    var ids = arr.map(function(obj) {
+      return obj.objectId;
+    });
+    var tokens = arr.map(function(obj) {
+      return obj.updatedAt;
+    });
+    cb(200, arr, ids, tokens);
+  }, token);
+};
+
+
 /**
  * @override
  */
-RestService.prototype.list = function(cb, name) {
-  this.db.values(this.name, 'updatedAt', null, 1, 0, true).always(function(obj) {
-    var token = obj[0] ? obj[0].updatedAt : null;
-    Rest.list(function(arr) {
-      var ids = arr.map(function(obj) {
-        return obj.objectId;
-      });
-      var tokens = arr.map(function(obj) {
-        return obj.updatedAt;
-      });
-      cb(200, arr, ids, tokens);
-    }, token);
-  });
+RestService.prototype.list = function(cb, name, token) {
+  if (token) {
+    RestService.prototype.list_(cb, name, token);
+  } else {
+    this.db.values(this.name, 'updatedAt', null, 1, 0, true).always(function(obj) {
+      var token = obj[0] ? obj[0].updatedAt : null;
+      RestService.prototype.list_(cb, name, token);
+    });
+  }
 };
