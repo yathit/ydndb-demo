@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>Test for multiple connection</title>
+</head>
+<body>
+<p>opening two connections to an indexeddb database</p>
+<script>
+  var show = function(msg) {
+    var p = document.createElement('p');
+    p.textContent = msg;
+    document.body.appendChild(p);
+  };
+  db1 = window.indexedDB.open('test');
+  db1.onsuccess = function(e) {
+    console.log('db1.onsuccess', e);
+    show('db1.onsuccess');
+  }
+  db1.onerror = function(e) {
+    console.log('db1.onerror', e);
+    show('db1.onerror');
+  }
+
+  db2 = window.indexedDB.open('test');
+  db2.onsuccess = function(e) {
+    console.log('db2.onsuccess', e);
+    show('db2.onsuccess');
+  }
+  db2.onerror = function(e) {
+    console.log('db2.onerror', e);
+    show('db2.onerror');
+  }
+</script>
+</body>
+</html>
