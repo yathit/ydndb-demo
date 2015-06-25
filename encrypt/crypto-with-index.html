@@ -62,7 +62,10 @@
   saveMessage(messages);
   loadMessage(ydn.db.IndexValueIterator.where('store', 'category', '=', 'sedan')).done(function(obj) {
     console.log('sedan cars', obj);
-  })
+  });
+  loadMessage(new ydn.db.IndexValueIterator('store')).done(function(obj) {
+    console.log('all cars', obj);
+  });
 </script>
 <p>See source code and console.</p>
 <p><a href="http://dev.yathit.com/api/ydn/crypto/Cipher.html">API documentation</a></p>
