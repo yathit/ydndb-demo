@@ -36,7 +36,7 @@
   })).done(function(keys) {
     console.log(keys);
     db.values('store', keys).done(function(packages) {
-      packages.map(function(obj) {
+      return packages.map(function(obj) {
         return cipher.decrypt(obj);
       });
     }).done(function(objs) {
