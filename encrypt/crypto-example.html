@@ -28,19 +28,29 @@
   }, {
     msg: 'Test 2'
   }];
+
   var db = new ydn.db.Storage('crypto-test', schema);
+
   db.put('store', messages.map(function(msg) {
     return cipher.encrypt(msg);
   })).done(function(keys) {
     console.log(keys);
+    db.values('store', keys).done(function(packages) {
+      packages.map(function(obj) {
+        return cipher.decrypt(obj);
+      });
+    }).done(function(objs) {
+      console.log('query by keys', objs);
+    })
   });
+
   db.values('store').done(function(packages) {
     return packages.map(function(obj) {
       console.log(obj);
       return cipher.decrypt(obj);
     });
   }).done(function(msgs) {
-    console.log('decrypted messages', msgs);
+    console.log('all decrypted messages', msgs);
   });
 </script>
 <p>See source code and console.</p>
