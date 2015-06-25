@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>Crypto module example</title>
+  <script src="ydn.db-isw-core-crypt-qry-dev.js"></script>
+</head>
+<body>
+  <h3>Using crypto module</h3>
+<script>
+  var schema = {
+    stores: [{
+      name: 'store',
+      keyPath: 'id'
+    }]
+  };
+  var options = {
+    method: 'rc4',
+    secrets: [{
+      name: 'aaaa',
+      key: 'aYHF6vfuGHpfWS*eRLrPQxZjSó~É5c6HjCscqDqRtZasp¡JWSMGaW'
+    }]
+  };
+  var cipher = new ydn.crypto.Cipher(options);
+  var messages = [{
+    msg: 'Test 1',
+    id: '1'
+  }, {
+    msg: 'Test 2',
+    id: '2'
+  }];
+  var db = new ydn.db.Storage('crypto-test', schema);
+  db.put('store', messages.map(function(msg) {
+    var package = cipher.encrypt(msg.id, msg);
+    package.id = msg.id;
+    return package;
+  })).done(function(keys) {
+    console.log(keys);
+  });
+  db.values('store').done(function(packages) {
+    return packages.map(function(obj) {
+      console.log(obj);
+      return cipher.decrypt(obj.id, obj);
+    });
+  }).done(function(msgs) {
+    console.log('decrypted messages', msgs);
+  });
+</script>
+</body>
+</html>
