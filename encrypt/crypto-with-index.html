@@ -63,7 +63,7 @@
   loadMessage(ydn.db.IndexValueIterator.where('store', 'category', '=', 'sedan')).done(function(obj) {
     console.log('sedan cars', obj);
   });
-  loadMessage(new ydn.db.IndexValueIterator('store')).done(function(obj) {
+  loadMessage(new ydn.db.ValueIterator('store')).done(function(obj) {
     console.log('all cars', obj);
   });
 </script>
