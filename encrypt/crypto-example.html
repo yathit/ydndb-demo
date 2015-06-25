@@ -11,11 +11,12 @@
   var schema = {
     stores: [{
       name: 'store',
-      keyPath: 'id'
+      keyPath: 'key'
     }]
   };
   var options = {
     method: 'rc4',
+    exposeKey: true,
     secrets: [{
       name: 'aaaa',
       key: 'aYHF6vfuGHpfWS*eRLrPQxZjSó~É5c6HjCscqDqRtZasp¡JWSMGaW'
@@ -23,24 +24,20 @@
   };
   var cipher = new ydn.crypto.Cipher(options);
   var messages = [{
-    msg: 'Test 1',
-    id: '1'
+    msg: 'Test 1'
   }, {
-    msg: 'Test 2',
-    id: '2'
+    msg: 'Test 2'
   }];
   var db = new ydn.db.Storage('crypto-test', schema);
   db.put('store', messages.map(function(msg) {
-    var package = cipher.encrypt(msg.id, msg);
-    package.id = msg.id;
-    return package;
+    return cipher.encrypt(msg);
   })).done(function(keys) {
     console.log(keys);
   });
   db.values('store').done(function(packages) {
     return packages.map(function(obj) {
       console.log(obj);
-      return cipher.decrypt(obj.id, obj);
+      return cipher.decrypt(obj);
     });
   }).done(function(msgs) {
     console.log('decrypted messages', msgs);
