@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>Crypto module example</title>
+  <script src="ydn.db-is-core-crypt-cur-dev.js"></script>
+</head>
+<body>
+<h3>Using crypto module with indexing</h3>
+<p>This example demonstrate using index in encrypted store. The metadata that we want to query are expose outside of encryption and use for querying.</p>
+<script>
+  var schema = {
+    stores: [{
+      name: 'store',
+      keyPath: 'key',
+      indexes: [{
+        name: 'category'
+      }]
+    }]
+  };
+  var options = {
+    method: 'rc4',
+    exposeKey: true,
+    secrets: [{
+      name: 'aaaa',
+      key: 'aYHF6vfuGHpfWS*eRLrPQxZjSó~É5c6HjCscqDqRtZasp¡JWSMGaW'
+    }]
+  };
+  var cipher = new ydn.crypto.Cipher(options);
+  var messages = [{
+    key: '1',
+    msg: 'Toyota 4Runner 2003',
+    category: 'sedan'
+  }, {
+    key: '2',
+    msg: 'Honda Insight 2009',
+    category: 'hatchback'
+  }, {
+    key: '2',
+    msg: 'Toyota Noah 2003',
+    category: 'sedan'
+  }];
+
+  var db = new ydn.db.Storage('crypto-test', schema);
+
+  var saveMessage = function(messages) {
+    return db.put('store', messages.map(function(msg) {
+      var package = cipher.encrypt(msg);
+      package.category = msg.category; // expose for indexing
+      return package;
+    }))
+  };
+
+  var loadMessage = function(query) {
+    return db.values(query).done(function(packages) {
+      return packages.map(function(obj) {
+        return cipher.decrypt(obj);
+      });
+    })
+  };
+
+  saveMessage(messages);
+  loadMessage(ydn.db.IndexValueIterator.where('store', 'category', '=', 'sedan')).done(function(obj) {
+    console.log('sedan cars', obj);
+  })
+</script>
+<p>See source code and console.</p>
+<p><a href="http://dev.yathit.com/api/ydn/crypto/Cipher.html">API documentation</a></p>
+<p><a href="crypto-example.html">Without index</a></p>
+<p><a href="todo.html">Encrypted TODO app</a></p>
+</body>
+</html>

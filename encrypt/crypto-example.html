@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -6,7 +7,7 @@
   <script src="ydn.db-isw-core-crypt-qry-dev.js"></script>
 </head>
 <body>
-  <h3>Using crypto module</h3>
+<h3>Using crypto module</h3>
 <script>
   var schema = {
     stores: [{
@@ -41,7 +42,7 @@
       });
     }).done(function(objs) {
       console.log('query by keys', objs);
-    })
+    });
   });
 
   db.values('store').done(function(packages) {
@@ -54,7 +55,8 @@
   });
 </script>
 <p>See source code and console.</p>
-  <p><a href="http://dev.yathit.com/api/ydn/crypto/Cipher.html">API documentation</a></p>
-  <p><a href="todo.html">Encrypted TODO app</a></p>
+<p><a href="http://dev.yathit.com/api/ydn/crypto/Cipher.html">API documentation</a></p>
+<p><a href="crypto-with-index.html">With index</a></p>
+<p><a href="todo.html">Encrypted TODO app</a></p>
 </body>
 </html>
