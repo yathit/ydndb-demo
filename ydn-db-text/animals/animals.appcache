@@ -2,7 +2,7 @@ CACHE MANIFEST
 # v23
 animals.js
 data.csv
-ydn.db-dev-text.js
+ydn.db-is-crud-text.js
 
 NETWORK:
 *
