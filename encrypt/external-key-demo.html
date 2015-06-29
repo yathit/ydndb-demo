@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>Crypto module example</title>
+  <script src="ydn.db-is-core-crypt-cur-dev.js"></script>
+</head>
+<body>
+<h3>Using crypto module with hash key</h3>
+<p>This example demonstrate how to encrypt record key.</p>
+<p>In <a href="crypto-with-index.html">previous example</a> we expose record key. If key contains sensitive data, key can be hide them by hashing.</p>
+<script>
+  var schema = {
+    stores: [{
+      name: 'store',
+      indexes: [{
+        name: 'category'
+      }]
+    }]
+  };
+  var options = {
+    secrets: [{
+      name: 'aaaa',
+      key: 'aYHF6vfuGHpfWS*eRLrPQxZjSó~É5c6HjCscqDqRtZasp¡JWSMGaW'
+    }]
+  };
+  var cipher = new ydn.crypto.Cipher(options);
+  var messages = [{
+    key: '1',
+    msg: 'Toyota 4Runner 2003',
+    category: 'sedan'
+  }, {
+    key: '2',
+    msg: 'Honda Insight 2009',
+    category: 'hatchback'
+  }, {
+    key: '3',
+    msg: 'Toyota Noah 2003',
+    category: 'sedan'
+  }];
+
+  var db = new ydn.db.Storage('crypto-ext-test', schema);
+  var pdb = db.branch('repeat', false); // create parallel transaction thread for performance.
+
+  var saveCars = function(cars) {
+    for (var i = 0; i < cars.length; i++) {
+      var hash_key = cipher.hash(cars[i].key);
+      var obj = cipher.encrypt(cars[i], hash_key);
+      obj.category = cars[i].category; // expose for indexing
+      pdb.put('store', obj, hash_key);
+    }
+  };
+
+  var loadCars = function(query) {
+    var arr = [];
+    return db.open(function(cursor) {
+      arr.push(cipher.decrypt(cursor.getValue(), cursor.getPrimaryKey()));
+    }, query).done(function() {
+      return arr;
+    });
+  };
+
+  saveCars(messages);
+  loadCars(ydn.db.IndexValueIterator.where('store', 'category', '=', 'sedan')).done(function(obj) {
+    console.log('sedan cars', obj);
+  });
+  loadCars(new ydn.db.ValueIterator('store')).done(function(obj) {
+    console.log('all cars', obj);
+  });
+</script>
+<p>See source code and console.</p>
+<p><a href="http://dev.yathit.com/api/ydn/crypto/Cipher.html">API documentation</a></p>
+<p><a href="crypto-example.html">Without index</a></p>
+<p><a href="todo.html">Encrypted TODO app</a></p>
+</body>
+</html>
