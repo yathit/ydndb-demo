@@ -43,6 +43,7 @@
   var pdb = db.branch('repeat', false); // create parallel transaction thread for performance.
 
   var saveCars = function(cars) {
+    // by using pdb, all cars will be put in one transaction.
     for (var i = 0; i < cars.length; i++) {
       var hash_key = cipher.hash(cars[i].key);
       var obj = cipher.encrypt(cars[i], hash_key);
