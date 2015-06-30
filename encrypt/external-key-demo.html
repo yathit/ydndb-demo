@@ -39,7 +39,7 @@
     category: 'sedan'
   }];
 
-  var db = new ydn.db.Storage('crypto-ext-test', schema);
+  var db = new ydn.db.Storage('crypto-ext-demo', schema);
   var pdb = db.branch('repeat', false); // create parallel transaction thread for performance.
 
   var saveCars = function(cars) {

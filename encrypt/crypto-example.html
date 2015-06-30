@@ -17,6 +17,7 @@
   };
   var options = {
     method: 'rc4',
+    exposeKey: true,
     secrets: [{
       name: 'aaaa',
       key: 'aYHF6vfuGHpfWS*eRLrPQxZjSó~É5c6HjCscqDqRtZasp¡JWSMGaW'
@@ -29,7 +30,7 @@
     msg: 'Test 2'
   }];
 
-  var db = new ydn.db.Storage('crypto-test', schema);
+  var db = new ydn.db.Storage('crypto-demo', schema);
 
   db.put('store', messages.map(function(msg) {
     return cipher.encrypt(msg);

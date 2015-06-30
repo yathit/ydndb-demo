@@ -41,7 +41,7 @@
     category: 'sedan'
   }];
 
-  var db = new ydn.db.Storage('crypto-index-test', schema);
+  var db = new ydn.db.Storage('crypto-index-demo', schema);
 
   var saveCars = function(messages) {
     return db.put('store', messages.map(function(msg) {
