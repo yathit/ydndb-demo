@@ -20,7 +20,7 @@
   };
   var options = {
     method: 'rc4',
-    exposeKey: true,
+    exposeKey: 'id',
     secrets: [{
       name: 'aaaa',
       key: 'aYHF6vfuGHpfWS*eRLrPQxZjSó~É5c6HjCscqDqRtZasp¡JWSMGaW'
@@ -28,22 +28,22 @@
   };
   var cipher = new ydn.crypto.Cipher(options);
   var messages = [{
-    key: '1',
+    id: '1',
     msg: 'Toyota 4Runner 2003',
     category: 'sedan'
   }, {
-    key: '2',
+    id: '2',
     msg: 'Honda Insight 2009',
     category: 'hatchback'
   }, {
-    key: '3',
+    id: '3',
     msg: 'Toyota Noah 2003',
     category: 'sedan'
   }];
 
-  var db = new ydn.db.Storage('crypto-test', schema);
+  var db = new ydn.db.Storage('crypto-index-test', schema);
 
-  var saveMessage = function(messages) {
+  var saveCars = function(messages) {
     return db.put('store', messages.map(function(msg) {
       var package = cipher.encrypt(msg);
       package.category = msg.category; // expose for indexing
@@ -51,7 +51,7 @@
     }))
   };
 
-  var loadMessage = function(query) {
+  var loadCars = function(query) {
     return db.values(query).done(function(packages) {
       return packages.map(function(obj) {
         return cipher.decrypt(obj);
@@ -59,11 +59,11 @@
     })
   };
 
-  saveMessage(messages);
-  loadMessage(ydn.db.IndexValueIterator.where('store', 'category', '=', 'sedan')).done(function(obj) {
+  saveCars(messages);
+  loadCars(ydn.db.IndexValueIterator.where('store', 'category', '=', 'sedan')).done(function(obj) {
     console.log('sedan cars', obj);
   });
-  loadMessage(new ydn.db.ValueIterator('store')).done(function(obj) {
+  loadCars(new ydn.db.ValueIterator('store')).done(function(obj) {
     console.log('all cars', obj);
   });
 </script>

@@ -26,15 +26,15 @@
   };
   var cipher = new ydn.crypto.Cipher(options);
   var messages = [{
-    key: '1',
+    carId: '1',
     msg: 'Toyota 4Runner 2003',
     category: 'sedan'
   }, {
-    key: '2',
+    carId: '2',
     msg: 'Honda Insight 2009',
     category: 'hatchback'
   }, {
-    key: '3',
+    carId: '3',
     msg: 'Toyota Noah 2003',
     category: 'sedan'
   }];
@@ -45,7 +45,7 @@
   var saveCars = function(cars) {
     // by using pdb, all cars will be put in one transaction.
     for (var i = 0; i < cars.length; i++) {
-      var hash_key = cipher.hash(cars[i].key);
+      var hash_key = cipher.hash(cars[i].carId);
       var obj = cipher.encrypt(cars[i], hash_key);
       obj.category = cars[i].category; // expose for indexing
       pdb.put('store', obj, hash_key);
