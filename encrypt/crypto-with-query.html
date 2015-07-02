@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+  <meta charset="UTF-8">
+  <title>Crypto module example with query</title>
+  <script src="ydn.db-isw-sql-e-crypt-cur-qry-text-dev.js"></script>
+</head>
+<body>
+<h3>Using crypto module with indexing</h3>
+<p>This example demonstrate using index in encrypted store. The metadata that we want to query are expose outside of encryption and use for querying.</p>
+<script>
+  var schema = {
+    stores: [{
+      name: 'store',
+      indexes: [{
+        name: 'category'
+      }]
+    }]
+  };
+  var options = {
+    method: 'rc4',
+    secrets: [{
+      name: 'aaaa',
+      key: 'aYHF6vfuGHpfWS*eRLrPQxZjSó~É5c6HjCscqDqRtZasp¡JWSMGaW'
+    }]
+  };
+  var cipher = new ydn.crypto.Cipher(options);
+  var messages = [{
+    id: '1',
+    msg: 'Toyota 4Runner 2003',
+    weight: 2010,
+    price: 5000,
+    category: 'sedan'
+  }, {
+    id: '2',
+    msg: 'Honda Insight 2009',
+    weight: 2110,
+    price: 6300,
+    category: 'hatchback'
+  }, {
+    id: '3',
+    msg: 'Honda Insight 2009',
+    weight: 1010,
+    price: 5100,
+    category: 'hatchback'
+  }, {
+    id: '4',
+    msg: 'Honda Insight 2007',
+    weight: 2510,
+    price: 4800,
+    category: 'hatchback'
+  }];
+
+  var db = new ydn.db.Storage('crypto-query-demo', schema);
+  var pdb = db.branch('repeat');
+
+  var saveCars = function(cars) {
+    for (var i = 0; i < cars.length; i++) {
+      var package = cipher.encrypt(cars[i], cars[i].id);
+      package.category = cars[i].category; // expose for indexing
+      pdb.put('store', package, cars[i].id);
+    }
+  };
+
+  var countCheap = function(query) {
+    var cnt = 0;
+    return query.open(function(cursor) {
+      var car = cipher.decrypt(cursor.getValue(), cursor.getPrimaryKey());
+      var isCheap = (car.price / car.weight) < 2.5;
+      if (isCheap) {
+        cnt++;
+      }
+    }).done(function() {
+      return cnt;
+    })
+  };
+
+  saveCars(messages);
+  countCheap(db.from('store')).done(function(obj) {
+    console.log('cheap cars count', obj);
+  });
+  countCheap(db.from('store').where('category', '=', 'sedan')).done(function(obj) {
+    console.log('cheap sedan cars count', obj);
+  });
+
+</script>
+<p>See source code and console.</p>
+<p><a href="http://dev.yathit.com/api/ydn/crypto/Cipher.html">API documentation</a></p>
+<p><a href="crypto-example.html">Without index</a>, <a href="external-key-demo.html">hashing key</a></p>
+<p><a href="todo.html">Encrypted TODO app</a></p>
+</body>
+</html>
