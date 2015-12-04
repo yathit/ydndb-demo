@@ -21,7 +21,8 @@ var schema = {
     ]
   }]
 };
-var db = new ydn.db.Storage('entity-sync-app', schema);
+var db_options = /websql/.test(location.search) ? {mechanisms: ['websql']} : {};
+var db = new ydn.db.Storage('entity-sync-app', schema, db_options);
 
 var service = new RestService('item', db);
 var Item = db.entity(service, 'item');
